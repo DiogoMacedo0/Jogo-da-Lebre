@@ -1,0 +1,227 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+//  Estrutura para um Tipo de carta, enum serve para enumerar, por exemplo dias da semana
+typedef enum {
+    Lebre,
+    Tartaruga,
+    Lobo,
+    Loboespecial,
+    Raposa,
+    Cordeiro,
+} TipoCarta;
+
+// Estrutura para uma carta
+//id é o numero da carta
+typedef struct {
+   TipoCarta tipo;
+    int id;
+} Carta;
+
+// Estrutura para um baralho, vamos buscar a estrutura Carta e defenimos um vetor com o numero de cartas
+typedef struct {
+    Carta cartas[81];
+}Baralho;
+
+
+//Estrutura de um jogador, vamos buscar a estrutura jogador e defenimos quantas cartas vai ter na mão
+typedef struct {
+    
+    char nome[50];
+    int pontos;
+    Carta mao[5];
+}Jogador;
+
+// Função para Inicializar o jogador 
+
+void inicializarJogador(Jogador* jogador, Baralho* baralho)
+{
+
+
+    printf("Insira o seu nome:");
+
+    // A estrutura jogador vamos buscar o nome
+    scanf_s("%s", jogador->nome);
+
+    // A estrutura jogador vamos buscar os pontos e colocamos os pontos a zero
+    jogador->pontos = 0;
+
+
+
+    /*A estrutura Jogador usando apontadores vamos buscar a mão e a mao vamos buscar o id e o tipo
+     A estrutura baralho usando apontadores vamos buscar as cartas e as cartas vamos buscar o id e o tipo e igualamos ambas
+    */
+
+     
+    for (int i = 0; i < 6; i++)
+    {
+            jogador->mao[i].id = baralho->cartas[i].id;
+            jogador->mao[i].tipo = baralho->cartas[i].tipo;
+
+    }
+
+}
+
+//Funlção para inicializar e para baralhar o baralho
+
+void inicializarBaralho(Baralho* baralho)
+{
+    for (int i = 0; i < 81; i++)
+    {
+        if (i < 18)
+        {
+            baralho->cartas[i].tipo = Lebre;
+        }
+        else if (i < 18)
+        {
+            baralho->cartas[i].tipo = Tartaruga;
+        }
+        else if (i < 35)
+        {
+            baralho->cartas[i].tipo = Lobo;
+        }
+        else if (i < 48)
+        {
+            baralho->cartas[i].tipo = Loboespecial;
+        }
+        else if (i < 66)
+        {
+            baralho->cartas[i].tipo = Raposa;
+        }
+
+        else
+        {
+            baralho->cartas[i].tipo = Cordeiro;
+        }
+
+    }
+
+    // Baralhar o baralho de 81 cartas 
+
+
+    /*
+    Maquina de gerar numeros entre 0 e 100
+    #include <time.h>
+    #include <stdlib.h>
+    int valor
+
+
+    srand(time)(NULL)),
+    valor=(rand()%(100-0+1)) +0,
+    
+    */
+
+
+    // Baralhar o baralho de 81 cartas 
+    srand(time(NULL));
+    for (int i = 80; i > 0; i--)
+    {
+        int j = rand() % (i + 1);
+
+        Carta temp = baralho->cartas[i];
+
+        baralho->cartas[i] = baralho->cartas[j];
+
+        baralho->cartas[j] = temp;
+
+    }
+
+}
+
+
+//Função para imprimir o baralho
+
+void imprimirBaralho(Baralho* baralho)
+{
+    for (int i = 0; i < 81; i++)
+    {
+        printf("A carta %d é um(a) ", baralho->cartas[i].id);
+        switch (baralho->cartas[i].tipo)
+        {
+        case Lebre:
+            printf("Lebre\n");
+            break;
+        case Tartaruga:
+            printf("Tartaruga\n");
+            break;
+        case Lobo:
+            printf("Lobo\n");
+            break;
+        case Loboespecial:
+            printf("Lobo_Uivar\n");
+            break;
+        case Raposa :
+            printf("Raposa\n");
+            break;
+        case Cordeiro:
+            printf("Ovelha\n");
+            break;
+        }
+    }
+}
+
+// Função para criar um novo jogo
+void novoJogo() {
+
+    Baralho baralho;
+    Jogador jogador1, jogador2;
+    inicializarBaralho(&baralho);
+    inicializarJogador(&jogador1, &baralho);
+
+
+
+
+}
+
+/*
+*/
+
+
+int main()
+{
+
+
+
+
+    int opcao;
+
+
+    do {
+
+        printf("\nMenu:\n");
+
+        printf("1. Iniciar Jogo\n");
+
+        printf("2.carregar Jogo\n");
+
+        printf("3. Ver Regras\n");
+
+        printf("4. Sair\n");
+
+
+        scanf_s("%d", &opcao);
+
+
+        switch (opcao) {
+        
+        case 1:
+            novoJogo();
+            break;
+        
+            
+            
+       
+ 
+            case 4:
+                                 break;
+
+
+        }
+
+  
+   } while (opcao != 4);
+
+
+   return 0;
+}
